@@ -38,6 +38,13 @@ export const GameBoard = memo(function GameBoard() {
   // Timer should be active during DISCARD phase for human players
   const isTimerActive = currentPlayer?.type === 'HUMAN' && gamePhase === GamePhase.DISCARD;
   
+  // Debug logging
+  console.log('Timer Debug:', {
+    playerType: currentPlayer?.type,
+    gamePhase,
+    isTimerActive
+  });
+  
   // Handle automatic discard when timer runs out
   const handleTimerTimeout = useCallback(() => {
     if (!currentPlayer || currentPlayer.hand.length === 0) return;
@@ -152,8 +159,7 @@ export const GameBoard = memo(function GameBoard() {
               onTimeout={handleTimerTimeout}
             />
             <GameControls selectedCardId={selectedCardId} />
-          </div>
-        </div>
+          </div>        </div>
       </div>
     </div>
   );

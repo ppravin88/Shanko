@@ -235,7 +235,8 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
   return (
     hashCards(prevProps.cards) === hashCards(nextProps.cards) &&
     prevProps.playerId === nextProps.playerId &&
-    prevProps.playerName === nextProps.playerName
+    prevProps.playerName === nextProps.playerName &&
+    prevProps.selectedCardId === nextProps.selectedCardId
   );
 });
 
