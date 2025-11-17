@@ -154,6 +154,14 @@ export const GameBoard = memo(function GameBoard() {
           </div>
 
           <div className="controls-area" role="region" aria-label="Game controls">
+            {/* Debug info */}
+            <div style={{ background: 'rgba(255,255,255,0.1)', padding: '8px', borderRadius: '4px', marginBottom: '8px', fontSize: '12px' }}>
+              <div>Selected Card: {selectedCardId || 'None'}</div>
+              <div>Game Phase: {gamePhase}</div>
+              <div>Player Type: {currentPlayer?.type}</div>
+              <div>Timer Active: {isTimerActive ? 'Yes' : 'No'}</div>
+            </div>
+            
             <TurnTimer 
               isActive={isTimerActive}
               onTimeout={handleTimerTimeout}

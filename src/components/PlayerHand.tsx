@@ -207,7 +207,7 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
               key={card.id}
               data-card-id={card.id}
               className={`card-wrapper ${(selectedCardId === card.id || selectedCards.has(card.id)) ? 'selected' : ''} ${isTouch ? 'touch-enabled' : ''} ${draggedCardId === card.id ? 'dragging' : ''} ${dragOverCardId === card.id ? 'drag-over' : ''}`}
-              onClick={() => !isTouch && handleCardClick(card.id)}
+              onClick={() => handleCardClick(card.id)}
               draggable={!isTouch}
               onDragStart={(e) => handleDragStart(e, card.id)}
               onDragOver={(e) => handleDragOver(e, card.id)}
