@@ -1,14 +1,19 @@
-import { useEffect, useMemo, memo } from 'react';
-import { useSelector } from 'react-redux';
-import { selectGameState, selectPlayers, selectCurrentPlayer, selectRound, selectRoundObjective, selectDrawPile, selectDiscardPile } from '../store/selectors';
+import { useEffect, useMemo, memo, useState, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectGameState, selectPlayers, selectCurrentPlayer, selectRound, selectRoundObjective, selectDrawPile, selectDiscardPile, selectGamePhase } from '../store/selectors';
 import { PlayerHand } from './PlayerHand';
 import { DrawPile } from './DrawPile';
 import { DiscardPile } from './DiscardPile';
 import { MeldedSets } from './MeldedSets';
 import { ScoreBoard } from './ScoreBoard';
 import { GameControls } from './GameControls';
+import { TurnTimer } from './TurnTimer';
 import { batchPreloadCards } from '../utils/cardPreloader';
 import { debounce } from '../utils/performanceOptimization';
+import { findLeastUsefulCard } from '../utils/turnTimer';
+import { discardCard } from '../store/gameSlice';
+import { removeCardFromHand } from '../store/playersSlice';
+import { GamePhase } from '../types';
 import './GameBoard.css';
 
 /**
@@ -16,6 +21,8 @@ import './GameBoard.css';
  * Requirements: 7.1, 7.2, 7.3, 7.4, 7.5
  */
 export const GameBoard = memo(function GameBoard() {
+  const dispatch = useDispatch();
+  
   // Use granular selectors to minimize re-renders
   const round = useSelector(selectRound);
   const roundObjective = useSelector(selectRoundObjective);
@@ -23,6 +30,28 @@ export const GameBoard = memo(function GameBoard() {
   const discardPile = useSelector(selectDiscardPile);
   const players = useSelector(selectPlayers);
   const currentPlayer = useSelector(selectCurrentPlayer);
+  const gamePhase = useSelector(selectGamePhase);
+  
+  // Card selection state for discarding
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+  
+  // Timer should be active during DISCARD phase for human players
+  const isTimerActive = currentPlayer?.type === 'HUMAN' && gamePhase === GamePhase.DISCARD;
+  
+  // Handle automatic discard when timer runs out
+  const handleTimerTimeout = useCallback(() => {
+    if (!currentPlayer || currentPlayer.hand.length === 0) return;
+    
+    // Find least useful card to discard
+    const cardToDiscard = findLeastUsefulCard(currentPlayer.hand, roundObjective);
+    
+    // Dispatch discard action
+    dispatch(removeCardFromHand({ playerId: currentPlayer.id, cardId: cardToDiscard.id }));
+    dispatch(discardCard(cardToDiscard));
+    
+    // Clear selection
+    setSelectedCardId(null);
+  }, [currentPlayer, roundObjective, dispatch]);
 
   // Debounced card preloading to avoid excessive calls
   const debouncedPreload = useMemo(
@@ -112,11 +141,17 @@ export const GameBoard = memo(function GameBoard() {
               cards={currentPlayer.hand} 
               playerId={currentPlayer.id}
               playerName={currentPlayer.name}
+              selectedCardId={selectedCardId}
+              onCardSelect={setSelectedCardId}
             />
           </div>
 
           <div className="controls-area" role="region" aria-label="Game controls">
-            <GameControls />
+            <TurnTimer 
+              isActive={isTimerActive}
+              onTimeout={handleTimerTimeout}
+            />
+            <GameControls selectedCardId={selectedCardId} />
           </div>
         </div>
       </div>

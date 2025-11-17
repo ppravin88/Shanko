@@ -16,6 +16,7 @@ interface CombinationBuilder {
   id: string;
   type: 'TRIPLET' | 'SEQUENCE' | null;
   cards: Card[];
+  label?: string;
 }
 
 /**
@@ -28,17 +29,20 @@ export function MeldDialog({ isOpen, playerHand, roundObjective, onConfirm, onCa
   const [currentBuilder, setCurrentBuilder] = useState<CombinationBuilder>({
     id: crypto.randomUUID(),
     type: null,
-    cards: []
+    cards: [],
+    label: ''
   });
   const [validationError, setValidationError] = useState<string>('');
+  const [customLabel, setCustomLabel] = useState<string>('');
 
   useEffect(() => {
     if (!isOpen) {
       // Reset state when dialog closes
       setSelectedCards(new Set());
       setCombinations([]);
-      setCurrentBuilder({ id: crypto.randomUUID(), type: null, cards: [] });
+      setCurrentBuilder({ id: crypto.randomUUID(), type: null, cards: [], label: '' });
       setValidationError('');
+      setCustomLabel('');
     }
   }, [isOpen]);
 
@@ -70,6 +74,11 @@ export function MeldDialog({ isOpen, playerHand, roundObjective, onConfirm, onCa
     setValidationError('');
   };
 
+  const generateLabel = (type: 'TRIPLET' | 'SEQUENCE'): string => {
+    const existingOfType = combinations.filter(c => c.type === type).length;
+    return `${type === 'TRIPLET' ? 'Triplet' : 'Sequence'} ${existingOfType + 1}`;
+  };
+
   const handleAddCombination = () => {
     if (!currentBuilder.type) {
       setValidationError('Please select combination type (Triplet or Sequence)');
@@ -95,15 +104,20 @@ export function MeldDialog({ isOpen, playerHand, roundObjective, onConfirm, onCa
       return;
     }
 
-    // Add to combinations list
-    setCombinations(prev => [...prev, currentBuilder]);
+    // Generate label if not provided
+    const label = customLabel.trim() || generateLabel(currentBuilder.type!);
+    
+    // Add to combinations list with label
+    setCombinations(prev => [...prev, { ...currentBuilder, label }]);
     
     // Reset builder
     setCurrentBuilder({
       id: crypto.randomUUID(),
       type: null,
-      cards: []
+      cards: [],
+      label: ''
     });
+    setCustomLabel('');
     setValidationError('');
   };
 
@@ -187,7 +201,8 @@ export function MeldDialog({ isOpen, playerHand, roundObjective, onConfirm, onCa
                 {combinations.map(combo => (
                   <div key={combo.id} className={`combination-item ${combo.type?.toLowerCase()}`}>
                     <div className="combination-header">
-                      <span className="combination-type">{combo.type}</span>
+                      <span className="combination-label">{combo.label || combo.type}</span>
+                      <span className="combination-type-badge">{combo.type}</span>
                       <button 
                         className="remove-btn"
                         onClick={() => handleRemoveCombination(combo.id)}
@@ -223,6 +238,22 @@ export function MeldDialog({ isOpen, playerHand, roundObjective, onConfirm, onCa
               >
                 Sequence (4+ cards)
               </button>
+            </div>
+
+            <div className="builder-label-input">
+              <label htmlFor="combo-label">Label (optional):</label>
+              <input
+                id="combo-label"
+                type="text"
+                value={customLabel}
+                onChange={(e) => setCustomLabel(e.target.value)}
+                placeholder={currentBuilder.type ? generateLabel(currentBuilder.type) : 'e.g., My Triplet'}
+                maxLength={20}
+                className="label-input"
+              />
+              <small className="label-hint">
+                {customLabel.trim() ? `Will be labeled: "${customLabel.trim()}"` : currentBuilder.type ? `Auto-label: "${generateLabel(currentBuilder.type)}"` : 'Select type first'}
+              </small>
             </div>
 
             <div className="builder-cards">

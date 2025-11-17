@@ -1,21 +1,40 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectValidActions, selectGamePhase, selectCurrentPlayer } from '../store/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectValidActions, selectGamePhase, selectCurrentPlayer, selectDrawPile, selectDiscardPile } from '../store/selectors';
 import { GamePhase } from '../types';
 import { useKeyboardNavigation, getShortcutText } from '../hooks/useKeyboardNavigation';
 import { KeyboardHelp } from './KeyboardHelp';
+import { drawFromDrawPile as drawFromDrawPileAction, drawFromDiscardPile as drawFromDiscardPileAction, discardCard, discardCardFaceDown, setPhase } from '../store/gameSlice';
+import { addCardToHand, removeCardFromHand } from '../store/playersSlice';
 import './GameControls.css';
 import './VisualFeedback.css';
 import '../styles/accessibility.css';
+
+interface GameControlsProps {
+  selectedCardId?: string | null;
+  onMeldClick?: () => void;
+  onBuyClick?: () => void;
+  onSwapJokerClick?: () => void;
+  onExtendSequenceClick?: () => void;
+}
 
 /**
  * GameControls component - Action buttons for game play with keyboard navigation
  * Requirements: 4.3, 4.5, 6.1, 12.1, 14.1, 7.3, 7.5
  */
-export function GameControls() {
+export function GameControls({ 
+  selectedCardId, 
+  onMeldClick,
+  onBuyClick,
+  onSwapJokerClick,
+  onExtendSequenceClick 
+}: GameControlsProps = {}) {
+  const dispatch = useDispatch();
   const validActions = useSelector(selectValidActions);
   const gamePhase = useSelector(selectGamePhase);
   const currentPlayer = useSelector(selectCurrentPlayer);
+  const drawPile = useSelector(selectDrawPile);
+  const discardPile = useSelector(selectDiscardPile);
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
 
   if (!currentPlayer) {
@@ -23,49 +42,83 @@ export function GameControls() {
   }
 
   const handleDrawFromDrawPile = () => {
-    if (!validActions.canDrawFromDrawPile) return;
-    // This will be implemented when connecting to game logic
-    console.log('Draw from draw pile');
+    if (!validActions.canDrawFromDrawPile || drawPile.length === 0) return;
+    
+    const topCard = drawPile[0];
+    dispatch(addCardToHand({ playerId: currentPlayer.id, card: topCard }));
+    dispatch(drawFromDrawPileAction());
   };
 
   const handleDrawFromDiscardPile = () => {
-    if (!validActions.canDrawFromDiscardPile) return;
-    // This will be implemented when connecting to game logic
-    console.log('Draw from discard pile');
+    if (!validActions.canDrawFromDiscardPile || discardPile.length === 0) return;
+    
+    const topCard = discardPile[discardPile.length - 1];
+    dispatch(addCardToHand({ playerId: currentPlayer.id, card: topCard }));
+    dispatch(drawFromDiscardPileAction());
   };
 
   const handleDiscard = () => {
     if (!validActions.canDiscard) return;
-    // This will be implemented when connecting to game logic
-    console.log('Discard card');
+    
+    if (!selectedCardId) {
+      alert('Please select a card to discard');
+      return;
+    }
+    
+    const cardToDiscard = currentPlayer.hand.find(c => c.id === selectedCardId);
+    if (!cardToDiscard) {
+      alert('Selected card not found in hand');
+      return;
+    }
+    
+    dispatch(removeCardFromHand({ playerId: currentPlayer.id, cardId: selectedCardId }));
+    dispatch(discardCard(cardToDiscard));
   };
 
   const handleMeld = () => {
     if (!validActions.canMeld) return;
-    // This will be implemented when connecting to game logic
-    console.log('Meld combinations');
+    if (onMeldClick) {
+      onMeldClick();
+    }
   };
 
   const handleBuy = () => {
     if (!validActions.canBuy) return;
-    // This will be implemented when connecting to game logic
-    console.log('Buy card');
+    if (onBuyClick) {
+      onBuyClick();
+    }
   };
 
   const handleGoOut = () => {
     if (!validActions.canGoOut) return;
-    // This will be implemented when connecting to game logic
-    console.log('Go out');
+    
+    if (!selectedCardId) {
+      alert('Please select a card to discard');
+      return;
+    }
+    
+    const cardToDiscard = currentPlayer.hand.find(c => c.id === selectedCardId);
+    if (!cardToDiscard) {
+      alert('Selected card not found in hand');
+      return;
+    }
+    
+    dispatch(removeCardFromHand({ playerId: currentPlayer.id, cardId: selectedCardId }));
+    dispatch(discardCardFaceDown(cardToDiscard));
   };
 
   const handleSwapJoker = () => {
     if (!validActions.canSwapJoker) return;
-    console.log('Swap Joker');
+    if (onSwapJokerClick) {
+      onSwapJokerClick();
+    }
   };
 
   const handleExtendSequence = () => {
     if (!validActions.canExtendSequence) return;
-    console.log('Extend Sequence');
+    if (onExtendSequenceClick) {
+      onExtendSequenceClick();
+    }
   };
 
   // Set up keyboard navigation

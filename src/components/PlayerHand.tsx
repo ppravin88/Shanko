@@ -11,13 +11,15 @@ interface PlayerHandProps {
   cards: Card[];
   playerId: string;
   playerName: string;
+  selectedCardId?: string | null;
+  onCardSelect?: (cardId: string | null) => void;
 }
 
 /**
  * PlayerHand component - Display current player's cards (optimized with memo)
  * Requirements: 7.3, 7.5
  */
-export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName }: PlayerHandProps) {
+export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName, selectedCardId, onCardSelect }: PlayerHandProps) {
   const [selectedCards, setSelectedCards] = useState<Set<string>>(new Set());
   const [animatingCards, setAnimatingCards] = useState<Set<string>>(new Set());
   const [previousCardCount, setPreviousCardCount] = useState(cards.length);
@@ -101,15 +103,21 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
   }, [cards, isTouch]);
 
   const handleCardClick = (cardId: string) => {
-    setSelectedCards(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(cardId)) {
-        newSet.delete(cardId);
-      } else {
-        newSet.add(cardId);
-      }
-      return newSet;
-    });
+    // If parent provides onCardSelect, use single selection mode (for discarding)
+    if (onCardSelect) {
+      onCardSelect(selectedCardId === cardId ? null : cardId);
+    } else {
+      // Otherwise use multi-selection mode (for melding)
+      setSelectedCards(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(cardId)) {
+          newSet.delete(cardId);
+        } else {
+          newSet.add(cardId);
+        }
+        return newSet;
+      });
+    }
   };
 
   const handleClearSelection = () => {
@@ -142,17 +150,17 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
             <div
               key={card.id}
               data-card-id={card.id}
-              className={`card-wrapper ${selectedCards.has(card.id) ? 'selected' : ''} ${isTouch ? 'touch-enabled' : ''}`}
+              className={`card-wrapper ${(selectedCardId === card.id || selectedCards.has(card.id)) ? 'selected' : ''} ${isTouch ? 'touch-enabled' : ''}`}
               onClick={() => !isTouch && handleCardClick(card.id)}
               role="button"
-              aria-pressed={selectedCards.has(card.id)}
+              aria-pressed={selectedCardId === card.id || selectedCards.has(card.id)}
               tabIndex={0}
             >
               <CardComponent 
                 card={card}
                 size={isMobile ? cardSize : 'medium'}
                 animationClass={animatingCards.has(card.id) ? 'card-drawing card-fade-in' : 'card-hover-lift'}
-                className={selectedCards.has(card.id) ? 'card-selected' : ''}
+                className={(selectedCardId === card.id || selectedCards.has(card.id)) ? 'card-selected' : ''}
               />
             </div>
           ))
