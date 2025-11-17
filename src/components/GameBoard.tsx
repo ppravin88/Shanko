@@ -193,16 +193,14 @@ export const GameBoard = memo(function GameBoard() {
           </div>
 
           <div className="controls-area" role="region" aria-label="Game controls">
-            {/* Debug info */}
-            <div style={{ background: 'rgba(255,255,255,0.1)', padding: '8px', borderRadius: '4px', marginBottom: '8px', fontSize: '12px' }}>
-              <div>Selected Card: {selectedCardId || 'None'}</div>
-              <div>Game Phase: {gamePhase}</div>
-              <div>Player Type: {currentPlayer?.type}</div>
-              <div>Draw Timer: {isDrawTimerActive ? 'Yes' : 'No'}</div>
-              <div>Discard Timer: {isDiscardTimerActive ? 'Yes' : 'No'}</div>
-              <div>Buy Timer: {isBuyTimerActive ? 'Yes' : 'No'}</div>
-            </div>
-            
+            <GameControls 
+              selectedCardId={selectedCardId}
+              onMeldClick={() => setIsMeldingMode(true)}
+            />
+          </div>
+          
+          {/* Debug panel and timer - bottom right corner */}
+          <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-end' }}>
             {/* Draw Phase Timer - 5 seconds */}
             {isDrawTimerActive && (
               <TurnTimer 
@@ -229,10 +227,14 @@ export const GameBoard = memo(function GameBoard() {
               />
             )}
             
-            <GameControls 
-              selectedCardId={selectedCardId}
-              onMeldClick={() => setIsMeldingMode(true)}
-            />
+            {/* Debug info */}
+            <div style={{ background: 'rgba(0,0,0,0.8)', padding: '8px', borderRadius: '4px', fontSize: '11px', color: '#fff', minWidth: '200px' }}>
+              <div>Card: {selectedCardId || 'None'}</div>
+              <div>Phase: {gamePhase}</div>
+              <div>Draw: {isDrawTimerActive ? 'Yes' : 'No'}</div>
+              <div>Discard: {isDiscardTimerActive ? 'Yes' : 'No'}</div>
+              <div>Buy: {isBuyTimerActive ? 'Yes' : 'No'}</div>
+            </div>
           </div>        </div>
       </div>
     </div>
