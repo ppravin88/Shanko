@@ -1,0 +1,231 @@
+/**
+ * Accessibility styles for focus indicators and keyboard navigation
+ * Requirements: 7.3, 7.5
+ */
+
+/* Screen reader only content - visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus indicators - visible and clear */
+*:focus {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+}
+
+/* Enhanced focus for interactive elements */
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[role="button"]:focus,
+[tabindex]:focus {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+}
+
+/* Focus within - show when child has focus */
+.card:focus-within {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+}
+
+/* Skip to content link for keyboard users */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 10000;
+  border-radius: 0 0 4px 0;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Keyboard shortcut hints */
+.keyboard-hint {
+  display: inline-block;
+  padding: 2px 6px;
+  margin-left: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-family: monospace;
+  color: #666;
+}
+
+button .keyboard-hint,
+.control-btn .keyboard-hint {
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+button:hover .keyboard-hint,
+button:focus .keyboard-hint {
+  opacity: 1;
+}
+
+/* Focus visible only for keyboard navigation */
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+.js-focus-visible .focus-visible {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+}
+
+/* Card selection with keyboard */
+.card.keyboard-selected {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+  transform: translateY(-8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  *:focus {
+    outline: 4px solid currentColor;
+    outline-offset: 3px;
+  }
+  
+  button:focus,
+  a:focus,
+  input:focus {
+    outline: 4px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .card.keyboard-selected {
+    transform: none;
+  }
+}
+
+/* Focus trap for modals */
+.modal-focus-trap {
+  position: relative;
+}
+
+.modal-focus-trap::before,
+.modal-focus-trap::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Keyboard navigation help overlay */
+.keyboard-help-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.keyboard-help-content {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.keyboard-help-content h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.keyboard-help-content .shortcut-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.keyboard-help-content .shortcut-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.keyboard-help-content .shortcut-item:last-child {
+  border-bottom: none;
+}
+
+.keyboard-help-content .shortcut-key {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+}
+
+.keyboard-help-content .shortcut-description {
+  flex: 1;
+  margin-left: 16px;
+  color: #666;
+}
+
+.keyboard-help-close {
+  margin-top: 16px;
+  width: 100%;
+  padding: 10px;
+  background: #4A90E2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.keyboard-help-close:hover,
+.keyboard-help-close:focus {
+  background: #357ABD;
+}

@@ -1,0 +1,167 @@
+.melded-sets {
+  width: 100%;
+  height: 100%;
+}
+
+.melded-sets-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  color: white;
+  text-align: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.no-melds {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.melded-players {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.player-melds {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-melds-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-melds-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.melds-count {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.combinations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.combination {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.combination.triplet {
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+.combination.sequence {
+  border-color: rgba(33, 150, 243, 0.3);
+}
+
+.combination.extendable {
+  border-color: rgba(76, 175, 80, 0.5);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+.combination-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.combination-type {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.joker-badge,
+.extendable-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.joker-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.extendable-badge {
+  background: rgba(76, 175, 80, 0.8);
+  color: white;
+}
+
+.combination-cards {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.combination-card {
+  transition: transform 0.2s;
+}
+
+.combination-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .melded-sets-title {
+    font-size: 1.1rem;
+  }
+
+  .player-melds {
+    padding: 0.75rem;
+  }
+
+  .player-melds-name {
+    font-size: 1rem;
+  }
+
+  .combination {
+    padding: 0.5rem;
+  }
+
+  .combination-type {
+    font-size: 0.8rem;
+  }
+
+  .joker-badge,
+  .extendable-badge {
+    font-size: 0.7rem;
+  }
+
+  .combination-cards {
+    gap: 0.35rem;
+  }
+}

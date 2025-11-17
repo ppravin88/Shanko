@@ -1,0 +1,692 @@
+/* Responsive Design System for Shanko Card Game */
+
+/* ============================================
+   BREAKPOINTS
+   ============================================ */
+:root {
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-large: 1440px;
+}
+
+/* ============================================
+   MOBILE-FIRST BASE STYLES
+   ============================================ */
+
+/* Touch-friendly tap targets (minimum 44x44px) */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 12px;
+}
+
+/* Prevent text selection on touch devices */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch gesture support */
+.draggable {
+  touch-action: none;
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+/* ============================================
+   MOBILE LAYOUT (< 768px)
+   ============================================ */
+@media (max-width: 767px) {
+  /* App container adjustments */
+  .app {
+    padding: 0.5rem;
+  }
+
+  .app h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Game board mobile layout */
+  .game-board {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  }
+
+  .game-board-header {
+    padding: 0.5rem 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .game-board-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .round-objective {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  /* Stack layout for mobile */
+  .game-board-main {
+    flex-direction: column;
+  }
+
+  .game-board-left {
+    width: 100%;
+    max-height: 150px;
+    border-right: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem;
+  }
+
+  .game-board-center {
+    padding: 0.5rem;
+  }
+
+  /* Piles area - vertical stacking on very small screens */
+  .piles-area {
+    gap: 1rem;
+    padding: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Card sizing for mobile */
+  .card-small {
+    width: 40px;
+    height: 56px;
+    font-size: 0.5rem;
+  }
+
+  .card-medium {
+    width: 60px;
+    height: 84px;
+    font-size: 0.7rem;
+  }
+
+  .card-large {
+    width: 70px;
+    height: 98px;
+    font-size: 0.8rem;
+  }
+
+  /* Player hand mobile adjustments */
+  .player-hand {
+    padding: 0.5rem;
+  }
+
+  .cards-container {
+    gap: 0.4rem;
+    min-height: 100px;
+  }
+
+  /* Reduce hover effects on mobile (use tap instead) */
+  .card-wrapper:hover {
+    transform: none;
+  }
+
+  .card-wrapper:active {
+    transform: scale(0.95);
+  }
+
+  .card-wrapper.selected {
+    transform: translateY(-8px);
+  }
+
+  /* Game controls mobile layout */
+  .game-controls {
+    padding: 0.5rem;
+  }
+
+  .game-controls-buttons {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .game-controls button {
+    flex: 1 1 calc(50% - 0.25rem);
+    min-width: 120px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Scoreboard mobile layout */
+  .scoreboard {
+    padding: 0.5rem;
+  }
+
+  .scoreboard-header h3 {
+    font-size: 1rem;
+  }
+
+  .player-score-row {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Melded sets mobile layout */
+  .melded-sets {
+    padding: 0.5rem;
+  }
+
+  .player-melds {
+    margin-bottom: 0.75rem;
+  }
+
+  .combination {
+    gap: 0.3rem;
+  }
+
+  /* Dialog mobile adjustments */
+  .dialog-overlay {
+    padding: 0.5rem;
+    align-items: flex-end; /* Bottom sheet style on mobile */
+  }
+
+  .dialog-content {
+    max-width: 100%;
+    max-height: 85vh;
+    padding: 1rem;
+    border-radius: 16px 16px 0 0; /* Rounded top corners only */
+    animation: slideUpMobile 0.3s ease-out;
+  }
+  
+  @keyframes slideUpMobile {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .dialog-header {
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .dialog-header::before {
+    content: '';
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+  }
+
+  .dialog-header h2 {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+  }
+
+  .dialog-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .dialog-buttons button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  /* Meld dialog mobile */
+  .meld-builder {
+    gap: 0.5rem;
+  }
+
+  .combination-builder {
+    padding: 0.5rem;
+  }
+  
+  .combination-builder .card-wrapper {
+    margin: 0.25rem;
+  }
+
+  /* Game setup mobile */
+  .game-setup {
+    padding: 1rem;
+  }
+
+  .player-count-selector {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .player-count-btn {
+    flex: 1 1 calc(25% - 0.5rem);
+    min-width: 60px;
+  }
+}
+
+/* ============================================
+   PORTRAIT MOBILE (< 480px)
+   ============================================ */
+@media (max-width: 479px) {
+  .app h1 {
+    font-size: 1.5rem;
+  }
+
+  .game-board-header h2 {
+    font-size: 1rem;
+  }
+
+  .round-objective {
+    font-size: 0.75rem;
+  }
+
+  /* Extra small cards for portrait phones */
+  .card-medium {
+    width: 50px;
+    height: 70px;
+    font-size: 0.6rem;
+  }
+
+  .card-large {
+    width: 60px;
+    height: 84px;
+    font-size: 0.7rem;
+  }
+
+  /* Compact player hand */
+  .cards-container {
+    gap: 0.3rem;
+  }
+
+  /* Single column buttons */
+  .game-controls button {
+    flex: 1 1 100%;
+  }
+
+  /* Piles vertical stack */
+  .piles-area {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* ============================================
+   TABLET LAYOUT (768px - 1023px)
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app {
+    padding: 1rem;
+  }
+
+  .app h1 {
+    font-size: 2.2rem;
+  }
+
+  /* Tablet game board */
+  .game-board-header {
+    padding: 0.75rem 1.5rem;
+    flex-direction: row;
+  }
+
+  .game-board-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .round-objective {
+    font-size: 1rem;
+  }
+
+  /* Side-by-side layout for tablets */
+  .game-board-main {
+    flex-direction: row;
+  }
+
+  .game-board-left {
+    width: 240px;
+    max-height: none;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: none;
+    padding: 1rem;
+  }
+  
+  .game-board-center {
+    padding: 1rem;
+  }
+
+  /* Tablet card sizes - optimized for medium screens */
+  .card-small {
+    width: 45px;
+    height: 63px;
+    font-size: 0.55rem;
+  }
+
+  .card-medium {
+    width: 70px;
+    height: 98px;
+    font-size: 0.8rem;
+  }
+
+  .card-large {
+    width: 85px;
+    height: 119px;
+    font-size: 0.95rem;
+  }
+
+  /* Tablet player hand */
+  .player-hand {
+    padding: 1rem;
+  }
+  
+  .cards-container {
+    gap: 0.6rem;
+    justify-content: center;
+  }
+
+  /* Tablet controls - two column layout */
+  .game-controls {
+    padding: 1rem;
+  }
+  
+  .game-controls button {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.95rem;
+    min-height: 48px;
+  }
+  
+  .button-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .go-out-btn {
+    grid-column: 1 / -1; /* Full width for important button */
+  }
+
+  /* Scoreboard tablet layout */
+  .scoreboard {
+    padding: 1rem;
+  }
+  
+  .player-score-row {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  /* Melded sets tablet layout */
+  .melded-sets {
+    padding: 1rem;
+  }
+  
+  .player-melds {
+    margin-bottom: 1rem;
+  }
+  
+  .combination {
+    gap: 0.5rem;
+  }
+
+  /* Piles area tablet */
+  .piles-area {
+    gap: 2.5rem;
+    padding: 1rem;
+  }
+
+  /* Dialog sizing for tablets */
+  .dialog-overlay {
+    padding: 2rem;
+    align-items: center;
+  }
+  
+  .dialog-content {
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 12px;
+  }
+  
+  .dialog-header::before {
+    display: none; /* Remove mobile drag handle */
+  }
+  
+  .dialog-buttons {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  
+  .dialog-buttons button {
+    flex: 1;
+  }
+
+  /* Game setup tablet */
+  .game-setup {
+    padding: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .player-count-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+/* ============================================
+   LANDSCAPE TABLET (768px+, landscape)
+   ============================================ */
+@media (min-width: 768px) and (orientation: landscape) {
+  .game-board-main {
+    flex-direction: row;
+  }
+
+  .game-board-left {
+    width: 260px;
+  }
+
+  .piles-area {
+    gap: 2.5rem;
+  }
+
+  /* Optimize for wider screens */
+  .cards-container {
+    justify-content: flex-start;
+  }
+  
+  /* Better use of horizontal space */
+  .game-area {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem;
+  }
+  
+  /* Melded sets can take more horizontal space */
+  .melded-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .player-melds {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 300px;
+  }
+}
+
+/* ============================================
+   PORTRAIT TABLET (768px+, portrait)
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  /* Stack layout for portrait tablets */
+  .game-board-main {
+    flex-direction: column;
+  }
+  
+  .game-board-left {
+    width: 100%;
+    max-height: 180px;
+    border-right: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Optimize vertical space */
+  .piles-area {
+    flex-direction: row;
+    gap: 2rem;
+  }
+  
+  /* Cards can be slightly larger in portrait */
+  .card-medium {
+    width: 75px;
+    height: 105px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================================
+   DESKTOP LAYOUT (1024px+)
+   ============================================ */
+@media (min-width: 1024px) {
+  .app {
+    padding: 2rem;
+  }
+
+  .app h1 {
+    font-size: 3rem;
+  }
+
+  /* Full desktop layout */
+  .game-board-main {
+    flex-direction: row;
+  }
+
+  .game-board-left {
+    width: 280px;
+  }
+
+  /* Standard card sizes */
+  .card-small {
+    width: 50px;
+    height: 70px;
+    font-size: 0.6rem;
+  }
+
+  .card-medium {
+    width: 80px;
+    height: 112px;
+    font-size: 0.9rem;
+  }
+
+  .card-large {
+    width: 100px;
+    height: 140px;
+    font-size: 1.1rem;
+  }
+
+  /* Desktop hover effects */
+  .card-wrapper:hover {
+    transform: translateY(-8px);
+  }
+
+  .card-wrapper.selected {
+    transform: translateY(-12px);
+  }
+}
+
+/* ============================================
+   LARGE DESKTOP (1440px+)
+   ============================================ */
+@media (min-width: 1440px) {
+  .app h1 {
+    font-size: 3.5rem;
+  }
+
+  .game-board-left {
+    width: 320px;
+  }
+
+  /* Larger cards for big screens */
+  .card-large {
+    width: 110px;
+    height: 154px;
+    font-size: 1.2rem;
+  }
+
+  .piles-area {
+    gap: 4rem;
+  }
+}
+
+/* ============================================
+   TOUCH GESTURE UTILITIES
+   ============================================ */
+
+/* Smooth scrolling for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .game-area,
+  .melded-area,
+  .game-board-left {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Larger touch targets */
+  button,
+  .card-wrapper {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Remove hover states on touch devices */
+  .card:hover,
+  button:hover {
+    transform: none;
+  }
+
+  /* Active states for touch feedback */
+  button:active {
+    transform: scale(0.97);
+  }
+
+  .card-wrapper:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card-wrapper:hover,
+  .card-wrapper.selected {
+    transform: none;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .game-controls,
+  .dialog-overlay,
+  button {
+    display: none !important;
+  }
+
+  .game-board {
+    background: white;
+    color: black;
+  }
+}

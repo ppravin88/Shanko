@@ -1,0 +1,268 @@
+/**
+ * Color blind mode styles - adds patterns to card suits
+ * Requirements: 7.2
+ */
+
+/* Base card styles with patterns for color blind mode */
+.color-blind-mode .card {
+  position: relative;
+}
+
+/* Add pattern overlays to cards in color blind mode */
+.color-blind-mode .card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  border-radius: inherit;
+}
+
+/* Hearts - Diagonal lines (top-left to bottom-right) */
+.color-blind-mode .card[data-suit="HEARTS"]::after,
+.color-blind-mode .card.card-red:not([data-suit="DIAMONDS"])::after {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    currentColor 4px,
+    currentColor 5px
+  );
+}
+
+/* Diamonds - Diagonal lines (top-right to bottom-left) */
+.color-blind-mode .card[data-suit="DIAMONDS"]::after {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    currentColor 4px,
+    currentColor 5px
+  );
+}
+
+/* Clubs - Horizontal lines */
+.color-blind-mode .card[data-suit="CLUBS"]::after {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 4px,
+    currentColor 4px,
+    currentColor 5px
+  );
+}
+
+/* Spades - Vertical lines */
+.color-blind-mode .card[data-suit="SPADES"]::after {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 4px,
+    currentColor 4px,
+    currentColor 5px
+  );
+}
+
+/* Add suit pattern indicators to card corners in color blind mode */
+.color-blind-mode .card::before {
+  content: attr(data-suit-pattern);
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  font-size: 0.6em;
+  font-weight: bold;
+  opacity: 0.7;
+  padding: 2px 4px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Pattern indicators for each suit */
+.color-blind-mode .card[data-suit="HEARTS"]::before {
+  content: '╱';
+}
+
+.color-blind-mode .card[data-suit="DIAMONDS"]::before {
+  content: '╲';
+}
+
+.color-blind-mode .card[data-suit="CLUBS"]::before {
+  content: '─';
+}
+
+.color-blind-mode .card[data-suit="SPADES"]::before {
+  content: '│';
+}
+
+/* High contrast mode adjustments */
+.high-contrast {
+  --card-bg: #000;
+  --card-text: #fff;
+  --card-border: #fff;
+}
+
+.high-contrast .card {
+  border: 3px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--card-text);
+}
+
+.high-contrast .card-red {
+  border-color: #ff0000;
+}
+
+.high-contrast .card-black {
+  border-color: #ffffff;
+}
+
+.high-contrast button {
+  border: 2px solid currentColor;
+}
+
+.high-contrast button:focus {
+  outline: 4px solid #ffff00;
+  outline-offset: 2px;
+}
+
+/* Combination of color blind mode and high contrast */
+.color-blind-mode.high-contrast .card::after {
+  opacity: 0.3;
+}
+
+/* Suit symbols with enhanced visibility in color blind mode */
+.color-blind-mode .suit-symbol {
+  position: relative;
+}
+
+.color-blind-mode .suit-symbol::after {
+  content: attr(data-suit-name);
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5em;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+/* Melded sets visual distinction in color blind mode */
+.color-blind-mode .combination-item.triplet {
+  border-left: 5px solid #4A90E2;
+}
+
+.color-blind-mode .combination-item.sequence {
+  border-left: 5px dashed #4A90E2;
+}
+
+/* Button states in color blind mode */
+.color-blind-mode button:disabled {
+  opacity: 0.5;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.1) 10px,
+    rgba(0, 0, 0, 0.1) 20px
+  );
+}
+
+/* Phase indicator in color blind mode */
+.color-blind-mode .phase-indicator {
+  border: 2px solid currentColor;
+}
+
+/* Validation feedback with patterns */
+.color-blind-mode .validation-error {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(244, 67, 54, 0.1),
+    rgba(244, 67, 54, 0.1) 10px,
+    rgba(244, 67, 54, 0.2) 10px,
+    rgba(244, 67, 54, 0.2) 20px
+  );
+}
+
+.color-blind-mode .validation-success {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(76, 175, 80, 0.1),
+    rgba(76, 175, 80, 0.1) 10px,
+    rgba(76, 175, 80, 0.2) 10px,
+    rgba(76, 175, 80, 0.2) 20px
+  );
+}
+
+.color-blind-mode .validation-warning {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 152, 0, 0.1),
+    rgba(255, 152, 0, 0.1) 10px,
+    rgba(255, 152, 0, 0.2) 10px,
+    rgba(255, 152, 0, 0.2) 20px
+  );
+}
+
+/* Accessibility settings panel */
+.accessibility-settings {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.accessibility-settings h3 {
+  margin: 0 0 8px 0;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.accessibility-settings label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+
+.accessibility-settings input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.accessibility-toggle-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(74, 144, 226, 0.9);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85em;
+  z-index: 9998;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.accessibility-toggle-btn:hover,
+.accessibility-toggle-btn:focus {
+  background: rgba(74, 144, 226, 1);
+  transform: scale(1.05);
+}
+
+.accessibility-toggle-btn[aria-expanded="true"] {
+  background: rgba(244, 67, 54, 0.9);
+}

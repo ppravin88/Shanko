@@ -1,0 +1,128 @@
+.player-hand {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-hand-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.card-count {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.clear-selection-btn {
+  background: rgba(255, 100, 100, 0.8);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.clear-selection-btn:hover {
+  background: rgba(255, 100, 100, 1);
+  transform: translateY(-1px);
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  min-height: 140px;
+}
+
+.empty-hand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+.card-wrapper {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.card-wrapper:hover {
+  transform: translateY(-8px);
+}
+
+.card-wrapper.selected {
+  transform: translateY(-12px);
+}
+
+.card-wrapper.selected::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 3px solid #4CAF50;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .player-hand {
+    padding: 0.75rem;
+  }
+
+  .player-hand-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .player-name {
+    font-size: 1rem;
+  }
+
+  .card-count {
+    font-size: 0.8rem;
+  }
+
+  .cards-container {
+    gap: 0.5rem;
+  }
+
+  .card-wrapper:hover {
+    transform: translateY(-4px);
+  }
+
+  .card-wrapper.selected {
+    transform: translateY(-6px);
+  }
+}

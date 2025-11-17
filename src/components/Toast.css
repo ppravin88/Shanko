@@ -1,0 +1,226 @@
+/* Toast Notification System */
+
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  background: white;
+  color: #333;
+  font-size: 0.95rem;
+  animation: slideInRight 0.3s ease-out, fadeIn 0.3s ease-out;
+  pointer-events: auto;
+  min-width: 300px;
+  max-width: 400px;
+  word-wrap: break-word;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.toast-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toast-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-close:hover {
+  opacity: 1;
+}
+
+/* Toast Types */
+
+.toast-success {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  border-left: 4px solid #2e7d32;
+}
+
+.toast-success .toast-icon {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #f44336 0%, #e53935 100%);
+  color: white;
+  border-left: 4px solid #c62828;
+  animation: slideInRight 0.3s ease-out, shake 0.5s ease-in-out;
+}
+
+.toast-error .toast-icon {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, #ff9800 0%, #fb8c00 100%);
+  color: white;
+  border-left: 4px solid #ef6c00;
+}
+
+.toast-warning .toast-icon {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.toast-info {
+  background: linear-gradient(135deg, #2196F3 0%, #1e88e5 100%);
+  color: white;
+  border-left: 4px solid #1565c0;
+}
+
+.toast-info .toast-icon {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Fade out animation when dismissing */
+.toast.toast-dismissing {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .toast-container {
+    top: 60px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: auto;
+    max-width: none;
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .toast-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 0.875rem;
+  }
+
+  .toast-close {
+    width: 20px;
+    height: 20px;
+    font-size: 1.25rem;
+  }
+}
+
+/* Stacking multiple toasts */
+.toast-container .toast:not(:first-child) {
+  margin-top: -0.25rem;
+}
+
+/* Progress bar for auto-dismiss */
+.toast::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  animation: progressBar 3s linear forwards;
+}
+
+@keyframes progressBar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.toast-success::after {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.toast-error::after {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.toast-warning::after {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.toast-info::after {
+  background: rgba(255, 255, 255, 0.6);
+}

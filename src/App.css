@@ -1,0 +1,152 @@
+/* Import responsive styles */
+@import './styles/responsive.css';
+
+.app {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100); /* Dynamic viewport height for mobile */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+}
+
+.app h1 {
+  text-align: center;
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-placeholder {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.game-placeholder p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.game-placeholder button {
+  padding: 1rem 2rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.game-placeholder button:hover {
+  background: #357abd;
+}
+
+.game-placeholder button:active {
+  transform: translateY(1px);
+}
+
+/* Animation keyframes for card movements */
+@keyframes cardDeal {
+  from {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardDraw {
+  from {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cardDiscard {
+  from {
+    transform: translateY(0) rotate(0deg);
+  }
+  to {
+    transform: translateY(50px) rotate(5deg);
+  }
+}
+
+@keyframes cardMeld {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(200px);
+    opacity: 0.8;
+  }
+}
+
+/* Utility classes for animations */
+.card-deal-animation {
+  animation: cardDeal 0.5s ease-out;
+}
+
+.card-draw-animation {
+  animation: cardDraw 0.3s ease-out;
+}
+
+.card-discard-animation {
+  animation: cardDiscard 0.4s ease-in;
+}
+
+.card-meld-animation {
+  animation: cardMeld 0.6s ease-out;
+}
+
+/* Tutorial prompt */
+.tutorial-prompt {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.tutorial-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tutorial-link:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tutorial-link:active {
+  transform: translateY(0);
+}
+
+/* Mobile responsive for tutorial */
+@media (max-width: 768px) {
+  .tutorial-link {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}

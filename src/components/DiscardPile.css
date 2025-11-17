@@ -1,0 +1,119 @@
+.discard-pile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.discard-pile .pile-container {
+  position: relative;
+  width: 100px;
+  height: 140px;
+  transition: all 0.2s ease;
+}
+
+.discard-pile .pile-container.clickable {
+  cursor: pointer;
+}
+
+.discard-pile .pile-container.clickable:hover {
+  transform: translateY(-4px);
+}
+
+.discard-pile .pile-container.clickable:hover::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 3px solid #2196F3;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(33, 150, 243, 0.6);
+}
+
+.discard-pile .pile-container.disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.discard-pile .pile-stack {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 100px;
+  height: 140px;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  z-index: -1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.discard-pile .pile-stack-2 {
+  top: -6px;
+  left: -6px;
+  z-index: -2;
+}
+
+.discard-pile .empty-pile {
+  width: 100px;
+  height: 140px;
+  border: 3px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+.discard-pile .pile-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.discard-pile .pile-name {
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+}
+
+.discard-pile .pile-count {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .discard-pile .pile-container {
+    width: 80px;
+    height: 112px;
+  }
+
+  .discard-pile .pile-stack,
+  .discard-pile .pile-stack-2 {
+    width: 80px;
+    height: 112px;
+  }
+
+  .discard-pile .empty-pile {
+    width: 80px;
+    height: 112px;
+  }
+
+  .discard-pile .pile-name {
+    font-size: 0.9rem;
+  }
+
+  .discard-pile .pile-count {
+    font-size: 0.75rem;
+  }
+}

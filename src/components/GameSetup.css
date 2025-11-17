@@ -1,0 +1,115 @@
+.game-setup {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.game-setup h2 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #333;
+  font-size: 2rem;
+}
+
+.setup-section {
+  margin-bottom: 2rem;
+}
+
+.setup-section label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.player-count-selector,
+.human-players-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.count-button {
+  min-width: 50px;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  background: #f8f9fa;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.count-button:hover {
+  border-color: #4a90e2;
+  background: #e8f4ff;
+}
+
+.count-button.selected {
+  border-color: #4a90e2;
+  background: #4a90e2;
+  color: white;
+}
+
+.helper-text {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.setup-info {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.info-value {
+  font-weight: 700;
+  color: #4a90e2;
+  font-size: 1.1rem;
+}
+
+.start-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.start-button:hover {
+  background: #218838;
+}
+
+.start-button:active {
+  transform: translateY(1px);
+}

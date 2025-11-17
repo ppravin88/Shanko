@@ -1,0 +1,218 @@
+/**
+ * Game Settings Styles
+ */
+
+.game-settings {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.settings-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--primary-color, #2c5f2d);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.settings-toggle:hover {
+  background: var(--primary-hover, #234d24);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.settings-toggle:active {
+  transform: translateY(0);
+}
+
+.settings-icon {
+  font-size: 1.2rem;
+}
+
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 400px;
+  max-width: 90vw;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--primary-color, #2c5f2d);
+  color: white;
+}
+
+.settings-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.settings-content {
+  padding: 1.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.setting-group {
+  margin-bottom: 1.5rem;
+}
+
+.setting-group:last-child {
+  margin-bottom: 0;
+}
+
+.setting-group > label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.setting-group label input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.setting-options {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.option-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 0.5rem 1rem;
+  background: #f0f0f0;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+  background: #e0e0e0;
+  border-color: #ccc;
+}
+
+.option-btn.active {
+  background: var(--primary-color, #2c5f2d);
+  color: white;
+  border-color: var(--primary-color, #2c5f2d);
+}
+
+.setting-description {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  background: #ffc107;
+  color: #333;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.reset-btn:hover {
+  background: #c82333;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .game-settings {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .settings-toggle {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .settings-panel {
+    width: 350px;
+  }
+
+  .settings-content {
+    padding: 1rem;
+  }
+
+  .option-btn {
+    min-width: 60px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-panel {
+    width: calc(100vw - 1rem);
+    right: -0.5rem;
+  }
+
+  .option-btn {
+    flex: 1 1 calc(50% - 0.25rem);
+  }
+}

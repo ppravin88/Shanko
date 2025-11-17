@@ -1,0 +1,274 @@
+.game-controls {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.phase-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  position: relative;
+}
+
+.keyboard-help-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(74, 144, 226, 0.8);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.keyboard-help-btn:hover,
+.keyboard-help-btn:focus {
+  background: rgba(74, 144, 226, 1);
+  transform: scale(1.05);
+}
+
+.phase-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.phase-message {
+  font-size: 1rem;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+
+.controls-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  min-width: 180px;
+  justify-content: center;
+}
+
+.control-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.control-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
+
+.btn-text {
+  font-size: 0.95rem;
+}
+
+/* Button variants */
+.draw-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+}
+
+.draw-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+}
+
+.draw-discard-btn {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+}
+
+.draw-discard-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+}
+
+.meld-btn {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+}
+
+.meld-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #F57C00 0%, #E65100 100%);
+}
+
+.skip-btn {
+  background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
+  color: white;
+}
+
+.skip-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #757575 0%, #616161 100%);
+}
+
+.discard-btn {
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  color: white;
+}
+
+.discard-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+}
+
+.go-out-btn {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #333;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.go-out-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+}
+
+.buy-btn {
+  background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+  color: white;
+}
+
+.buy-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7B1FA2 0%, #6A1B9A 100%);
+}
+
+.secondary-btn {
+  background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
+  color: white;
+  min-width: 150px;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+}
+
+.secondary-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #455A64 0%, #37474F 100%);
+}
+
+/* Additional actions section */
+.additional-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.actions-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Touch-friendly buttons */
+.control-btn {
+  min-height: 44px; /* Minimum touch target size */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.control-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .game-controls {
+    padding: 0.75rem;
+  }
+
+  .control-btn {
+    min-width: 140px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    min-height: 48px; /* Larger touch target on mobile */
+  }
+
+  .btn-icon {
+    font-size: 1rem;
+  }
+
+  .btn-text {
+    font-size: 0.85rem;
+  }
+
+  .go-out-btn {
+    font-size: 1rem;
+    padding: 0.9rem 1.5rem;
+    min-height: 52px;
+  }
+
+  .phase-message {
+    font-size: 0.9rem;
+  }
+  
+  .button-group {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .button-group {
+    flex-direction: column;
+  }
+
+  .control-btn {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .keyboard-help-btn {
+    position: static;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+}

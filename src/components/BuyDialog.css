@@ -1,0 +1,296 @@
+.buy-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.buy-dialog {
+  background: linear-gradient(135deg, #2d1a47 0%, #3d2d5a 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #5a4a7c;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.buy-dialog-header {
+  padding: 1.5rem;
+  border-bottom: 2px solid #5a4a7c;
+}
+
+.buy-dialog-header h2 {
+  margin: 0;
+  color: #f0e6d2;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.buy-dialog-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Card Display */
+.card-display {
+  text-align: center;
+}
+
+.card-display h3 {
+  margin: 0 0 1rem 0;
+  color: #f0e6d2;
+  font-size: 1.2rem;
+}
+
+.card-showcase {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 2px solid #5a4a7c;
+}
+
+/* Player Info */
+.player-info {
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #5a4a7c;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.info-row:not(:last-child) {
+  border-bottom: 1px solid rgba(90, 74, 124, 0.3);
+}
+
+.info-label {
+  color: #c9b896;
+  font-weight: 600;
+}
+
+.info-value {
+  color: #f0e6d2;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Priority Section */
+.priority-section h3 {
+  margin: 0 0 0.75rem 0;
+  color: #f0e6d2;
+  font-size: 1.2rem;
+}
+
+.priority-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.priority-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #5a4a7c;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.priority-item.current-player {
+  background-color: rgba(90, 74, 124, 0.3);
+  border-color: #7a6a9c;
+  box-shadow: 0 0 10px rgba(90, 74, 124, 0.3);
+}
+
+.priority-item.first-priority {
+  border-color: #ffc107;
+}
+
+.priority-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #5a4a7c;
+  color: #f0e6d2;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.priority-item.first-priority .priority-number {
+  background-color: #ffc107;
+  color: #1a1a1a;
+}
+
+.priority-name {
+  flex: 1;
+  color: #f0e6d2;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.priority-badge {
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(90, 74, 124, 0.5);
+  color: #f0e6d2;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.priority-badge.first {
+  background-color: rgba(255, 193, 7, 0.3);
+  color: #ffc107;
+  border: 1px solid #ffc107;
+}
+
+.priority-buys {
+  color: #c9b896;
+  font-size: 0.9rem;
+}
+
+/* Instructions */
+.instructions {
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.warning-message {
+  margin: 0;
+  padding: 0.75rem;
+  background-color: rgba(220, 53, 69, 0.2);
+  border: 2px solid rgba(220, 53, 69, 0.8);
+  border-radius: 6px;
+  color: #ffcccc;
+  font-weight: 600;
+}
+
+.info-message {
+  margin: 0;
+  padding: 0.75rem;
+  background-color: rgba(23, 162, 184, 0.2);
+  border: 2px solid rgba(23, 162, 184, 0.8);
+  border-radius: 6px;
+  color: #d1ecf1;
+  font-weight: 600;
+}
+
+.success-message {
+  margin: 0;
+  padding: 0.75rem;
+  background-color: rgba(40, 167, 69, 0.2);
+  border: 2px solid rgba(40, 167, 69, 0.8);
+  border-radius: 6px;
+  color: #d4edda;
+  font-weight: 600;
+}
+
+/* Buy Action Info */
+.buy-action-info {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #5a4a7c;
+}
+
+.buy-action-info h4 {
+  margin: 0 0 0.75rem 0;
+  color: #f0e6d2;
+  font-size: 1rem;
+}
+
+.buy-action-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #c9b896;
+}
+
+.buy-action-info li {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+/* Dialog Footer */
+.buy-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 2px solid #5a4a7c;
+}
+
+.decline-btn,
+.confirm-btn {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.decline-btn {
+  background-color: rgba(108, 117, 125, 0.8);
+  color: white;
+}
+
+.decline-btn:hover {
+  background-color: rgba(108, 117, 125, 1);
+}
+
+.confirm-btn {
+  background-color: #ffc107;
+  color: #1a1a1a;
+}
+
+.confirm-btn:hover {
+  background-color: #ffca2c;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+}

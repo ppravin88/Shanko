@@ -1,0 +1,245 @@
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.scoreboard-title {
+  margin: 0;
+  padding: 1rem;
+  font-size: 1.3rem;
+  color: white;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.scoreboard-round {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.players-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.player-row {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s;
+}
+
+.player-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.player-row.current-player {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.15);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+.player-row.leading {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.player-info-section {
+  margin-bottom: 0.5rem;
+}
+
+.player-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.player-name {
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ai-badge {
+  font-size: 0.7rem;
+  background: rgba(156, 39, 176, 0.8);
+  color: white;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.current-badge {
+  color: #4CAF50;
+  font-size: 0.9rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.leader-badge {
+  font-size: 0.9rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.player-status {
+  font-size: 0.8rem;
+}
+
+.status-melded {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.status-not-melded {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.player-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.15rem;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: white;
+}
+
+.stat-item.total-score {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 0.25rem;
+}
+
+.stat-item.total-score .stat-value {
+  font-size: 1.1rem;
+  color: #FFD700;
+}
+
+.scoreboard-footer {
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.scoring-info {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.info-title {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+.info-text {
+  margin: 0.1rem 0;
+}
+
+/* Scrollbar styling */
+.players-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.players-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.players-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.players-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .scoreboard {
+    flex-direction: row;
+    height: auto;
+  }
+
+  .scoreboard-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding: 0.5rem;
+  }
+
+  .players-list {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem;
+  }
+
+  .player-row {
+    min-width: 200px;
+    margin-right: 0.5rem;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .scoreboard-title {
+    font-size: 1.1rem;
+  }
+
+  .player-name {
+    font-size: 0.9rem;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+  }
+
+  .stat-value {
+    font-size: 0.85rem;
+  }
+}

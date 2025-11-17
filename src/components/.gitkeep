@@ -1,0 +1,10 @@
+# Placeholder for React components
+# - GameSetup
+# - GameBoard
+# - PlayerHand
+# - DrawPile
+# - DiscardPile
+# - MeldedSets
+# - ScoreBoard
+# - GameControls
+# - Dialogs (MeldDialog, BuyDialog, etc.)
