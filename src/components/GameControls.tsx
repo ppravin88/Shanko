@@ -60,6 +60,9 @@ export function GameControls({
   const handleDiscard = () => {
     if (!validActions.canDiscard) return;
     
+    console.log('Discard clicked. Selected card:', selectedCardId); // Debug log
+    console.log('Current player hand:', currentPlayer.hand); // Debug log
+    
     if (!selectedCardId) {
       alert('Please select a card to discard');
       return;

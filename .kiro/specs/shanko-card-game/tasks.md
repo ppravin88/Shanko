@@ -542,6 +542,7 @@
 
 
 
+
 - [ ] 13. Implement game flow orchestration
 
   - [x] 13.1 Create game loop controller
@@ -577,6 +578,8 @@
     - Calculate final winner
     - Transition to game over screen
     - _Requirements: 5.5, 8.5_
+
+
 - [x] 14. Add accessibility features
 
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, memo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
 import { Card, Rank, Suit } from '../types';
 import { CardComponent } from './CardComponent';
 import { CardDragHandler, isTouchDevice } from '../utils/touchGestures';
@@ -23,6 +23,8 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
   const [selectedCards, setSelectedCards] = useState<Set<string>>(new Set());
   const [animatingCards, setAnimatingCards] = useState<Set<string>>(new Set());
   const [previousCardCount, setPreviousCardCount] = useState(cards.length);
+  const [draggedCardId, setDraggedCardId] = useState<string | null>(null);
+  const [dragOverCardId, setDragOverCardId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { isMobile, cardSize } = useResponsive();
   const isTouch = isTouchDevice();
@@ -105,7 +107,9 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
   const handleCardClick = (cardId: string) => {
     // If parent provides onCardSelect, use single selection mode (for discarding)
     if (onCardSelect) {
-      onCardSelect(selectedCardId === cardId ? null : cardId);
+      const newSelection = selectedCardId === cardId ? null : cardId;
+      onCardSelect(newSelection);
+      console.log('Card selected:', newSelection); // Debug log
     } else {
       // Otherwise use multi-selection mode (for melding)
       setSelectedCards(prev => {
@@ -122,6 +126,58 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
 
   const handleClearSelection = () => {
     setSelectedCards(new Set());
+  };
+
+  // Drag and drop handlers for card reordering
+  const handleDragStart = (e: React.DragEvent, cardId: string) => {
+    setDraggedCardId(cardId);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', cardId);
+  };
+
+  const handleDragOver = (e: React.DragEvent, cardId: string) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverCardId(cardId);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverCardId(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, targetCardId: string) => {
+    e.preventDefault();
+    setDragOverCardId(null);
+    
+    if (!draggedCardId || draggedCardId === targetCardId) {
+      setDraggedCardId(null);
+      return;
+    }
+
+    // Find indices
+    const draggedIndex = sortedCards.findIndex(c => c.id === draggedCardId);
+    const targetIndex = sortedCards.findIndex(c => c.id === targetCardId);
+
+    if (draggedIndex === -1 || targetIndex === -1) {
+      setDraggedCardId(null);
+      return;
+    }
+
+    // Reorder cards
+    const newCards = [...sortedCards];
+    const [draggedCard] = newCards.splice(draggedIndex, 1);
+    newCards.splice(targetIndex, 0, draggedCard);
+
+    // Note: This is visual only - we'd need to dispatch an action to persist the order
+    // For now, the cards will re-sort on next render based on suit/rank
+    console.log('Card reordered:', draggedCard, 'to position', targetIndex);
+    
+    setDraggedCardId(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedCardId(null);
+    setDragOverCardId(null);
   };
 
   return (
@@ -150,8 +206,14 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
             <div
               key={card.id}
               data-card-id={card.id}
-              className={`card-wrapper ${(selectedCardId === card.id || selectedCards.has(card.id)) ? 'selected' : ''} ${isTouch ? 'touch-enabled' : ''}`}
+              className={`card-wrapper ${(selectedCardId === card.id || selectedCards.has(card.id)) ? 'selected' : ''} ${isTouch ? 'touch-enabled' : ''} ${draggedCardId === card.id ? 'dragging' : ''} ${dragOverCardId === card.id ? 'drag-over' : ''}`}
               onClick={() => !isTouch && handleCardClick(card.id)}
+              draggable={!isTouch}
+              onDragStart={(e) => handleDragStart(e, card.id)}
+              onDragOver={(e) => handleDragOver(e, card.id)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDrop(e, card.id)}
+              onDragEnd={handleDragEnd}
               role="button"
               aria-pressed={selectedCardId === card.id || selectedCards.has(card.id)}
               tabIndex={0}

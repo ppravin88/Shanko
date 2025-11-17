@@ -94,6 +94,27 @@
   box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
 }
 
+/* Drag and drop styles */
+.card-wrapper[draggable="true"] {
+  cursor: grab;
+}
+
+.card-wrapper[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.card-wrapper.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+  transform: scale(0.95);
+}
+
+.card-wrapper.drag-over {
+  border-left: 4px solid #4caf50;
+  padding-left: 8px;
+  box-shadow: 0 0 16px rgba(76, 175, 80, 0.8);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .player-hand {
