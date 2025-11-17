@@ -13,13 +13,14 @@ interface PlayerHandProps {
   playerName: string;
   selectedCardId?: string | null;
   onCardSelect?: (cardId: string | null) => void;
+  allowMultiSelect?: boolean; // Allow selecting multiple cards for melding
 }
 
 /**
  * PlayerHand component - Display current player's cards (optimized with memo)
  * Requirements: 7.3, 7.5
  */
-export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName, selectedCardId, onCardSelect }: PlayerHandProps) {
+export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName, selectedCardId, onCardSelect, allowMultiSelect = false }: PlayerHandProps) {
   const [selectedCards, setSelectedCards] = useState<Set<string>>(new Set());
   const [animatingCards, setAnimatingCards] = useState<Set<string>>(new Set());
   const [previousCardCount, setPreviousCardCount] = useState(cards.length);
@@ -27,7 +28,8 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
   const [dragOverCardId, setDragOverCardId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { isMobile, cardSize } = useResponsive();
-  const isTouch = isTouchDevice();
+  // Always enable drag-and-drop for card reordering
+  const isTouch = false; // Disabled touch detection to allow drag-and-drop on all devices
 
   // Detect when cards are added and trigger animations
   useEffect(() => {
@@ -105,13 +107,8 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
   }, [cards, isTouch]);
 
   const handleCardClick = (cardId: string) => {
-    // If parent provides onCardSelect, use single selection mode (for discarding)
-    if (onCardSelect) {
-      const newSelection = selectedCardId === cardId ? null : cardId;
-      onCardSelect(newSelection);
-      console.log('Card selected:', newSelection); // Debug log
-    } else {
-      // Otherwise use multi-selection mode (for melding)
+    // Use multi-selection mode if explicitly allowed (for melding)
+    if (allowMultiSelect) {
       setSelectedCards(prev => {
         const newSet = new Set(prev);
         if (newSet.has(cardId)) {
@@ -119,8 +116,14 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
         } else {
           newSet.add(cardId);
         }
+        console.log('Multi-select:', Array.from(newSet)); // Debug log
         return newSet;
       });
+    } else if (onCardSelect) {
+      // Single selection mode (for discarding)
+      const newSelection = selectedCardId === cardId ? null : cardId;
+      onCardSelect(newSelection);
+      console.log('Single select:', newSelection); // Debug log
     }
   };
 

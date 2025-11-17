@@ -11,8 +11,8 @@ import { TurnTimer } from './TurnTimer';
 import { batchPreloadCards } from '../utils/cardPreloader';
 import { debounce } from '../utils/performanceOptimization';
 import { findLeastUsefulCard } from '../utils/turnTimer';
-import { discardCard, completeBuyWindow } from '../store/gameSlice';
-import { removeCardFromHand } from '../store/playersSlice';
+import { discardCard, completeBuyWindow, drawFromDrawPile as drawFromDrawPileAction } from '../store/gameSlice';
+import { removeCardFromHand, addCardToHand } from '../store/playersSlice';
 import { GamePhase } from '../types';
 import './GameBoard.css';
 
@@ -42,10 +42,18 @@ export const GameBoard = memo(function GameBoard() {
   // Buy window timer - 5 seconds for all players to decide if they want to buy
   const isBuyTimerActive = gamePhase === GamePhase.BUY_WINDOW;
   
+  // Draw phase timer - 5 seconds to choose draw pile or discard pile
+  const isDrawTimerActive = gamePhase === GamePhase.DRAW;
+  
   // Debug logging
   console.log('Timer Debug:', {
     playerType: currentPlayer?.type,
     gamePhase,
+    gamePhaseType: typeof gamePhase,
+    GamePhaseEnum: GamePhase,
+    GamePhaseDISCARD: GamePhase.DISCARD,
+    comparison: gamePhase === GamePhase.DISCARD,
+    isDrawTimerActive,
     isDiscardTimerActive,
     isBuyTimerActive,
     playerName: currentPlayer?.name
@@ -70,6 +78,15 @@ export const GameBoard = memo(function GameBoard() {
   const handleBuyTimeout = useCallback(() => {
     dispatch(completeBuyWindow());
   }, [dispatch]);
+  
+  // Handle draw phase timeout - automatically draw from draw pile
+  const handleDrawTimeout = useCallback(() => {
+    if (!currentPlayer || drawPile.length === 0) return;
+    
+    const topCard = drawPile[0];
+    dispatch(addCardToHand({ playerId: currentPlayer.id, card: topCard }));
+    dispatch(drawFromDrawPileAction());
+  }, [currentPlayer, drawPile, dispatch]);
 
   // Debounced card preloading to avoid excessive calls
   const debouncedPreload = useMemo(
@@ -161,6 +178,7 @@ export const GameBoard = memo(function GameBoard() {
               playerName={currentPlayer.name}
               selectedCardId={selectedCardId}
               onCardSelect={setSelectedCardId}
+              allowMultiSelect={gamePhase === GamePhase.MELD}
             />
           </div>
 
@@ -170,9 +188,19 @@ export const GameBoard = memo(function GameBoard() {
               <div>Selected Card: {selectedCardId || 'None'}</div>
               <div>Game Phase: {gamePhase}</div>
               <div>Player Type: {currentPlayer?.type}</div>
+              <div>Draw Timer: {isDrawTimerActive ? 'Yes' : 'No'}</div>
               <div>Discard Timer: {isDiscardTimerActive ? 'Yes' : 'No'}</div>
               <div>Buy Timer: {isBuyTimerActive ? 'Yes' : 'No'}</div>
             </div>
+            
+            {/* Draw Phase Timer - 5 seconds */}
+            {isDrawTimerActive && (
+              <TurnTimer 
+                isActive={isDrawTimerActive}
+                onTimeout={handleDrawTimeout}
+                duration={5}
+              />
+            )}
             
             {/* Discard Timer - 30 seconds */}
             {isDiscardTimerActive && (
