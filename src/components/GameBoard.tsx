@@ -35,6 +35,16 @@ export const GameBoard = memo(function GameBoard() {
   // Card selection state for discarding
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   
+  // Multi-select mode for melding - only enabled when user clicks "Meld Combinations"
+  const [isMeldingMode, setIsMeldingMode] = useState(false);
+  
+  // Reset melding mode when phase changes away from MELD
+  useEffect(() => {
+    if (gamePhase !== GamePhase.MELD) {
+      setIsMeldingMode(false);
+    }
+  }, [gamePhase]);
+  
   // Timer should be active during DISCARD phase for human players
   // Simplified: Show timer for all players during DISCARD (AI moves are instant anyway)
   const isDiscardTimerActive = gamePhase === GamePhase.DISCARD;
@@ -178,7 +188,7 @@ export const GameBoard = memo(function GameBoard() {
               playerName={currentPlayer.name}
               selectedCardId={selectedCardId}
               onCardSelect={setSelectedCardId}
-              allowMultiSelect={gamePhase === GamePhase.MELD}
+              allowMultiSelect={isMeldingMode}
             />
           </div>
 
@@ -219,7 +229,10 @@ export const GameBoard = memo(function GameBoard() {
               />
             )}
             
-            <GameControls selectedCardId={selectedCardId} />
+            <GameControls 
+              selectedCardId={selectedCardId}
+              onMeldClick={() => setIsMeldingMode(true)}
+            />
           </div>        </div>
       </div>
     </div>
