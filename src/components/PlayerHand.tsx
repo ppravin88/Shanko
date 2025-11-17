@@ -107,6 +107,8 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
   }, [cards, isTouch]);
 
   const handleCardClick = (cardId: string) => {
+    console.log('Card clicked:', { cardId, allowMultiSelect, hasOnCardSelect: !!onCardSelect }); // Debug
+    
     // Use multi-selection mode if explicitly allowed (for melding)
     if (allowMultiSelect) {
       setSelectedCards(prev => {
@@ -116,14 +118,16 @@ export const PlayerHand = memo(function PlayerHand({ cards, playerId, playerName
         } else {
           newSet.add(cardId);
         }
-        console.log('Multi-select:', Array.from(newSet)); // Debug log
+        console.log('Multi-select mode - selected cards:', Array.from(newSet));
         return newSet;
       });
     } else if (onCardSelect) {
       // Single selection mode (for discarding)
       const newSelection = selectedCardId === cardId ? null : cardId;
       onCardSelect(newSelection);
-      console.log('Single select:', newSelection); // Debug log
+      console.log('Single select mode - selected card:', newSelection);
+    } else {
+      console.log('No selection mode active!');
     }
   };
 
