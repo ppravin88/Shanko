@@ -11,7 +11,7 @@ import { TurnTimer } from './TurnTimer';
 import { batchPreloadCards } from '../utils/cardPreloader';
 import { debounce } from '../utils/performanceOptimization';
 import { findLeastUsefulCard } from '../utils/turnTimer';
-import { discardCard } from '../store/gameSlice';
+import { discardCard, completeBuyWindow } from '../store/gameSlice';
 import { removeCardFromHand } from '../store/playersSlice';
 import { GamePhase } from '../types';
 import './GameBoard.css';
@@ -36,17 +36,23 @@ export const GameBoard = memo(function GameBoard() {
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   
   // Timer should be active during DISCARD phase for human players
-  const isTimerActive = currentPlayer?.type === 'HUMAN' && gamePhase === GamePhase.DISCARD;
+  // Simplified: Show timer for all players during DISCARD (AI moves are instant anyway)
+  const isDiscardTimerActive = gamePhase === GamePhase.DISCARD;
+  
+  // Buy window timer - 5 seconds for all players to decide if they want to buy
+  const isBuyTimerActive = gamePhase === GamePhase.BUY_WINDOW;
   
   // Debug logging
   console.log('Timer Debug:', {
     playerType: currentPlayer?.type,
     gamePhase,
-    isTimerActive
+    isDiscardTimerActive,
+    isBuyTimerActive,
+    playerName: currentPlayer?.name
   });
   
   // Handle automatic discard when timer runs out
-  const handleTimerTimeout = useCallback(() => {
+  const handleDiscardTimeout = useCallback(() => {
     if (!currentPlayer || currentPlayer.hand.length === 0) return;
     
     // Find least useful card to discard
@@ -59,6 +65,11 @@ export const GameBoard = memo(function GameBoard() {
     // Clear selection
     setSelectedCardId(null);
   }, [currentPlayer, roundObjective, dispatch]);
+  
+  // Handle buy window timeout - advance to next turn if no one buys
+  const handleBuyTimeout = useCallback(() => {
+    dispatch(completeBuyWindow());
+  }, [dispatch]);
 
   // Debounced card preloading to avoid excessive calls
   const debouncedPreload = useMemo(
@@ -159,13 +170,27 @@ export const GameBoard = memo(function GameBoard() {
               <div>Selected Card: {selectedCardId || 'None'}</div>
               <div>Game Phase: {gamePhase}</div>
               <div>Player Type: {currentPlayer?.type}</div>
-              <div>Timer Active: {isTimerActive ? 'Yes' : 'No'}</div>
+              <div>Discard Timer: {isDiscardTimerActive ? 'Yes' : 'No'}</div>
+              <div>Buy Timer: {isBuyTimerActive ? 'Yes' : 'No'}</div>
             </div>
             
-            <TurnTimer 
-              isActive={isTimerActive}
-              onTimeout={handleTimerTimeout}
-            />
+            {/* Discard Timer - 30 seconds */}
+            {isDiscardTimerActive && (
+              <TurnTimer 
+                isActive={isDiscardTimerActive}
+                onTimeout={handleDiscardTimeout}
+              />
+            )}
+            
+            {/* Buy Window Timer - 5 seconds */}
+            {isBuyTimerActive && (
+              <TurnTimer 
+                isActive={isBuyTimerActive}
+                onTimeout={handleBuyTimeout}
+                duration={5}
+              />
+            )}
+            
             <GameControls selectedCardId={selectedCardId} />
           </div>        </div>
       </div>

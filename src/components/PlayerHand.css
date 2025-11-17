@@ -73,6 +73,15 @@
   position: relative;
 }
 
+/* Override cursor for draggable cards */
+.card-wrapper[draggable="true"] {
+  cursor: grab !important;
+}
+
+.card-wrapper[draggable="true"]:active {
+  cursor: grabbing !important;
+}
+
 .card-wrapper:hover {
   transform: translateY(-8px);
 }
@@ -95,17 +104,9 @@
 }
 
 /* Drag and drop styles */
-.card-wrapper[draggable="true"] {
-  cursor: grab;
-}
-
-.card-wrapper[draggable="true"]:active {
-  cursor: grabbing;
-}
-
 .card-wrapper.dragging {
   opacity: 0.4;
-  cursor: grabbing;
+  cursor: grabbing !important;
   transform: scale(0.95);
 }
 

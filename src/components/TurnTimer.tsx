@@ -6,20 +6,24 @@ interface TurnTimerProps {
   isActive: boolean;
   onTimeout: () => void;
   onTick?: (secondsRemaining: number) => void;
+  duration?: number; // Optional custom duration in seconds (default: 30)
 }
 
 /**
  * TurnTimer component - Displays countdown timer for player turns
  * Automatically triggers timeout action when time runs out
  */
-export function TurnTimer({ isActive, onTimeout, onTick }: TurnTimerProps) {
-  const [secondsRemaining, setSecondsRemaining] = useState(TURN_TIME_LIMIT);
+export function TurnTimer({ isActive, onTimeout, onTick, duration = TURN_TIME_LIMIT }: TurnTimerProps) {
+  const [secondsRemaining, setSecondsRemaining] = useState(duration);
 
   useEffect(() => {
     if (!isActive) {
-      setSecondsRemaining(TURN_TIME_LIMIT);
+      setSecondsRemaining(duration);
       return;
     }
+
+    // Reset to duration when becoming active
+    setSecondsRemaining(duration);
 
     // Start countdown
     const interval = setInterval(() => {
@@ -43,14 +47,14 @@ export function TurnTimer({ isActive, onTimeout, onTick }: TurnTimerProps) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isActive, onTimeout, onTick]);
+  }, [isActive, onTimeout, onTick, duration]);
 
   if (!isActive) {
     return null;
   }
 
-  const warningLevel = getTimerWarningLevel(secondsRemaining);
-  const percentage = (secondsRemaining / TURN_TIME_LIMIT) * 100;
+  const warningLevel = getTimerWarningLevel(secondsRemaining, duration);
+  const percentage = (secondsRemaining / duration) * 100;
 
   return (
     <div className={`turn-timer turn-timer-${warningLevel}`} role="timer" aria-live="polite">
@@ -64,7 +68,7 @@ export function TurnTimer({ isActive, onTimeout, onTick }: TurnTimerProps) {
           style={{ width: `${percentage}%` }}
           aria-valuenow={secondsRemaining}
           aria-valuemin={0}
-          aria-valuemax={TURN_TIME_LIMIT}
+          aria-valuemax={duration}
         />
       </div>
       {warningLevel === 'critical' && (

@@ -119,8 +119,10 @@ export function formatTimeRemaining(seconds: number): string {
 /**
  * Get warning level based on time remaining
  */
-export function getTimerWarningLevel(seconds: number): 'normal' | 'warning' | 'critical' {
-  if (seconds <= 5) return 'critical';
-  if (seconds <= 10) return 'warning';
+export function getTimerWarningLevel(seconds: number, totalDuration: number = TURN_TIME_LIMIT): 'normal' | 'warning' | 'critical' {
+  const percentRemaining = (seconds / totalDuration) * 100;
+  
+  if (percentRemaining <= 16.67) return 'critical'; // Last 16.67% (5s of 30s, or 1s of 5s)
+  if (percentRemaining <= 33.33) return 'warning';  // Last 33.33% (10s of 30s, or 2s of 5s)
   return 'normal';
 }
